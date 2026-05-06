@@ -196,23 +196,12 @@ public sealed class Plugin : IDalamudPlugin
             return 0;
         }
 
-        try
-        {
-            var sheet = DataManager.GetExcelSheet<ClassJob>();
-            if (sheet != null && sheet.TryGetRow(jobId, out var row))
-            {
-                // Job icons are at 62000 + JobIndex (byte field on ClassJob)
-                var iconId = 62000u + (uint)row.JobIndex;
-                JobIconCache[jobId] = iconId;
-                return iconId;
-            }
-        }
-        catch (Exception ex)
-        {
-            Log.Warning(ex, "PartySorter: GetJobIconId failed for job {0}", jobId);
-        }
-        JobIconCache[jobId] = 0;
-        return 0;
+        // Job icons are at 62100 + ClassJob.RowId. The 62000 + JobIndex formula
+        // is wrong — JobIndex is the combat-order index (PLD=1, MNK=2, …) which
+        // maps each job back to its base class icon (GLA, PGL, MRD, …).
+        var iconId = 62100u + jobId;
+        JobIconCache[jobId] = iconId;
+        return iconId;
     }
 
     /// <summary>
