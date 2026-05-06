@@ -2,7 +2,15 @@
 
 A plugin for FFXIV that lets you reorder your party list by dragging party members in the in-game UI — no need to open Character Configuration.
 
-Available through the [AemiliusXIV plugin repository](https://github.com/AemiliusXIV/DalamudPlugins) or directly from the [GitHub repository](https://github.com/AemiliusXIV/PartySorter).
+## Installation
+
+1. In-game, open **ESC → Dalamud Settings → Experimental → Custom Plugin Repositories** and add:
+   ```
+   https://aemiliusxiv.github.io/DalamudPlugins/pluginmaster.json
+   ```
+2. Open the Plugin Installer (`/xlplugins`) and search for **Party Sorter**.
+
+Party Sorter is part of the [AemiliusXIV plugin repository](https://github.com/AemiliusXIV/DalamudPlugins) — visit that page for an overview of all available plugins.
 
 ## How it works
 
