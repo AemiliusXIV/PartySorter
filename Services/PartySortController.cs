@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using Dalamud.Game.ClientState.Conditions;
 
 namespace PartySorter.Services;
 
@@ -52,15 +51,12 @@ public sealed class PartySortController : IDisposable
         if (snapshot.IsCrossWorld) return;
         if (snapshot.Slots.Count < 2) return;
 
-        if (config.OnlyReapplyInInstance && !Plugin.Condition[ConditionFlag.BoundByDuty])
-            return;
-
         var now = DateTime.UtcNow;
         if (now < cooldownUntilUtc) return;
         if ((now - lastReapplyCheckUtc).TotalSeconds < ReapplyCheckIntervalSec) return;
         lastReapplyCheckUtc = now;
 
-        if (!config.SavedOrders.TryGetValue(CurrentGroupKey, out var saved)) return;
+        if (!TryGetSavedGroup(out var saved)) return;
 
         // Per-group override — Disabled skips auto-apply entirely.
         if (saved.AutoApply == AutoApplyMode.Disabled) return;
@@ -253,7 +249,7 @@ public sealed class PartySortController : IDisposable
         var snapshot = LastSnapshot;
         if (snapshot is null || string.IsNullOrEmpty(CurrentGroupKey)) return;
         if (snapshot.IsCrossWorld) return; // ChangeOrder has no effect in cross-world parties
-        if (!config.SavedOrders.TryGetValue(CurrentGroupKey, out var saved)) return;
+        if (!TryGetSavedGroup(out var saved)) return;
         if (saved.OrderedContentIds.Count != snapshot.Slots.Count) return;
 
         var currentOrder = snapshot.Slots.Select(s => s.ContentId).ToList();
@@ -324,6 +320,30 @@ public sealed class PartySortController : IDisposable
     // ────────────────────────────────────────────────────────────────────────
     // Helpers
     // ────────────────────────────────────────────────────────────────────────
+
+    /// <summary>
+    /// Looks up the saved group for the current group key. When KeyByInstance is
+    /// enabled but no territory-specific save exists, falls back to the base
+    /// (members-only) key so existing saves are not orphaned after enabling the setting.
+    /// </summary>
+    private bool TryGetSavedGroup(out SavedGroup saved)
+    {
+        if (config.SavedOrders.TryGetValue(CurrentGroupKey, out var s))
+        { saved = s; return true; }
+
+        // Fallback: if keying by instance but no territory-specific save is found,
+        // try the base (members-only) key so saves from before the setting was enabled
+        // remain usable without having to re-save every group.
+        if (config.KeyByInstance && LastSnapshot != null)
+        {
+            var baseKey = ComputeGroupKey(LastSnapshot);
+            if (config.SavedOrders.TryGetValue(baseKey, out s))
+            { saved = s; return true; }
+        }
+
+        saved = null!;
+        return false;
+    }
 
     internal static string ComputeGroupKey(PartySnapshot snapshot, uint territoryId = 0, bool includeTerritory = false)
     {

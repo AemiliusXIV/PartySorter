@@ -93,7 +93,7 @@ public sealed class ConfigWindow : Window, IDisposable
         if (Config.AutoSaveOnDrag)
             ImGui.TextDisabled("Updates existing entries on drag. Does not create new ones.");
         else
-            ImGui.TextDisabled("Off — use \"Save current order\" or /pdragsort save.");
+            ImGui.TextDisabled("Off — use \"Save current order\" or /psorter save.");
         ImGui.Unindent();
 
         // ── Auto-Reapply ────────────────────────────────────────────────────
@@ -114,17 +114,6 @@ public sealed class ConfigWindow : Window, IDisposable
         if (Config.AutoReapplyEnabled)
         {
             ImGui.Indent();
-
-            var instanceOnly = Config.OnlyReapplyInInstance;
-            if (ImGui.Checkbox("Only reapply inside duties", ref instanceOnly))
-            {
-                Config.OnlyReapplyInInstance = instanceOnly;
-                Config.Save();
-            }
-            if (ImGui.IsItemHovered())
-                ImGui.SetTooltip(
-                    "When enabled, auto-reapply only fires while inside a duty.\n" +
-                    "Open-world and cross-world parties are left alone.");
 
             var notifyReapply = Config.NotifyOnReapply;
             if (ImGui.Checkbox("Notify when order is restored", ref notifyReapply))
@@ -152,8 +141,8 @@ public sealed class ConfigWindow : Window, IDisposable
                 "When enabled, saved orders are keyed by both the member set AND the current\n" +
                 "duty/territory. The same group of people can have a different saved order in\n" +
                 "Eden vs. Coils, for example.\n\n" +
-                "Note: existing saves (keyed members-only) will no longer be matched\n" +
-                "after enabling this — re-save each group inside a duty to restore them.");
+                "Existing saves are still applied as a fallback when no duty-specific entry\n" +
+                "exists yet, so nothing breaks when you first enable this setting.");
 
         if (Config.KeyByInstance)
         {
@@ -220,7 +209,7 @@ public sealed class ConfigWindow : Window, IDisposable
         ImGui.Separator();
         ImGui.Spacing();
         ImGui.TextDisabled("Hold the modifier key and drag a party-list card to reorder.");
-        ImGui.TextDisabled("/psorter save  ·  /psorter debug");
+        ImGui.TextDisabled("/psorter save  —  saves the current live party order");
     }
 
     // ────────────────────────────────────────────────────────────────────────

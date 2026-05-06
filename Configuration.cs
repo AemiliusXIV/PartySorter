@@ -126,12 +126,6 @@ public class Configuration : IPluginConfiguration
     public bool AutoReapplyEnabled { get; set; } = true;
 
     /// <summary>
-    /// When true, auto-reapply only fires while inside a duty (BoundByDuty condition).
-    /// Open-world parties and cross-world parties are ignored.
-    /// </summary>
-    public bool OnlyReapplyInInstance { get; set; } = false;
-
-    /// <summary>
     /// When true, shows a toast notification each time auto-reapply successfully restores
     /// a saved order (e.g. "Order restored: Tuesday Static").
     /// </summary>
@@ -168,7 +162,8 @@ public class Configuration : IPluginConfiguration
     /// are in — matching the original behaviour and preserving older saves.
     ///
     /// NOTE: affects saves, lookups, the current-group highlight, and auto-reapply
-    /// equally. Toggling it orphans existing saves until they are re-saved in a duty.
+    /// equally. When no duty-specific save exists, the controller falls back to the
+    /// base (members-only) key, so existing saves remain usable after enabling this.
     /// </summary>
     public bool KeyByInstance { get; set; } = false;
 

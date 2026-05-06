@@ -8,7 +8,6 @@ using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
 using Lumina.Excel.Sheets;
-using PartySorter.Automation;
 using PartySorter.Services;
 using PartySorter.Windows;
 
@@ -28,9 +27,6 @@ public sealed class Plugin : IDalamudPlugin
     [PluginService] internal static IClientState ClientState { get; private set; } = null!;
     [PluginService] internal static IPlayerState PlayerState { get; private set; } = null!;
     [PluginService] internal static IFramework Framework { get; private set; } = null!;
-    [PluginService] internal static IAddonLifecycle AddonLifecycle { get; private set; } = null!;
-    [PluginService] internal static ISigScanner SigScanner { get; private set; } = null!;
-    [PluginService] internal static IGameInteropProvider GameInterop { get; private set; } = null!;
     [PluginService] internal static IToastGui ToastGui { get; private set; } = null!;
     [PluginService] internal static IChatGui ChatGui { get; private set; } = null!;
     [PluginService] internal static ICondition Condition { get; private set; } = null!;
@@ -74,7 +70,7 @@ public sealed class Plugin : IDalamudPlugin
 
         CommandManager.AddHandler(ConfigCommand, new CommandInfo(OnCommand)
         {
-            HelpMessage = "Open Party Sorter. Subcommands: save (save current order to chat), debug.",
+            HelpMessage = "Open Party Sorter. Use '/psorter save' to save the current live party order.",
             ShowInHelp = true,
         });
     }

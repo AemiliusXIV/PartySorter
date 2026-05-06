@@ -24,14 +24,13 @@ namespace PartySorter.Services;
 ///
 /// --- How to revert if ChangeOrder breaks after a patch ---
 ///
-/// If SE changes the InfoProxyPartyMember struct layout and ChangeOrder offsets break:
-/// 1. Restore the ChatSender-based path: Automation/ChatSender.cs is still present and
-///    functional — it was not deleted, only disconnected from the call chain.
-/// 2. In Plugin.cs: replace <c>new PartyReorderer()</c> with <c>new ChatSender()</c>
-///    and restore the ChatSender field and its Dispose() call.
-/// 3. In PartySortController.cs: swap the <c>reorderer.DispatchMoves/DispatchMovesToTarget</c>
-///    calls back to the enqueue + chat.Tick() pattern that was in place before 7.5.
-/// 4. See git history on Automation/ChatSender.cs for the exact previous wiring.
+/// If SE changes the InfoProxyPartyMember struct layout and ChangeOrder offsets break,
+/// the original /partysort text-command path can be restored from git history:
+/// 1. Retrieve Automation/ChatSender.cs from the "Initial public release" commit.
+/// 2. In Plugin.cs: add the ChatSender service back and replace <c>new PartyReorderer()</c>
+///    with <c>new ChatSender()</c>.
+/// 3. In PartySortController.cs: swap the <c>reorderer.DispatchMovesToTarget</c> calls
+///    back to the enqueue + chat.Tick() pattern that was in place before 7.5.
 ///
 /// The /partysort fallback adds ~40x latency per swap but is structurally simpler and will
 /// work for as long as the text command itself exists.
