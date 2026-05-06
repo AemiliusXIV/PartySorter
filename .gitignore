@@ -3,6 +3,7 @@ CLAUDE.md
 .claude/
 .claudeignore
 *.local.md
+CHANGELOG.md
 
 # .NET / Dalamud build output
 bin/
