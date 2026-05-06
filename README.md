@@ -21,4 +21,8 @@ Settings include: enable/disable toggle, drag modifier key (Ctrl / Shift / Alt),
 
 ## License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+Copyright (c) 2026 AemiliusXIV. All rights reserved.
+
+This project is source-available. You may fork and modify it, but the source code may not be copied into other projects or plugins without explicit written permission. Forks must preserve this license and credit the original author. See the [LICENSE](LICENSE) file for full terms.
+
+Use of this plugin is at your own risk and is not sanctioned by Square Enix Co., Ltd.

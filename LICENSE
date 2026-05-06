@@ -1,21 +1,29 @@
-MIT License
-
 Copyright (c) 2026 AemiliusXIV
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+of this software and associated documentation files (the "Software"), to use,
+copy, modify, and distribute the Software solely in the form of a standalone
+derivative repository that clearly identifies the original project and author,
+subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. FORKS ONLY — The Software, or any modified version thereof, may only be
+   distributed as a standalone derivative repository that clearly identifies
+   the original project and author. The Software's
+   source code, in whole or in part, may not be copied, adapted, or reproduced
+   within any other software project or plugin, regardless of the degree of
+   modification, without explicit written permission from the original author.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+2. LICENSE PRESERVATION — This license file must be included, unmodified, in
+   all forks and redistributions of the Software. The original author
+   (AemiliusXIV) must be clearly credited in any fork or derivative work.
+
+3. SQUARE ENIX DISCLAIMER — The use of third-party plugins, including this
+   Software, is not sanctioned by Square Enix Co., Ltd. and may violate the
+   Final Fantasy XIV Terms of Service. The author accepts no liability for any
+   consequences arising from the use of this Software, including but not limited
+   to account suspension or termination. Use at your own risk.
+
+THE SOFTWARE IS PROVIDED "AS IS". IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+THE USE OR OTHER DEALINGS IN THE SOFTWARE.
