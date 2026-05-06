@@ -21,5 +21,6 @@
   "LoadSync": false,
   "CanUnloadAsync": true,
   "LoadPriority": 0,
-  "AcceptsFeedback": true
+  "AcceptsFeedback": true,
+  "Changelog": "Removed 'only reapply inside duties' toggle — auto-reapply now works seamlessly across the cross-world to in-instance transition. Enabling 'separate order per duty' no longer orphans existing saves; the base order is used as a fallback until a duty-specific one is saved. Minor settings and command text cleanup."
 }

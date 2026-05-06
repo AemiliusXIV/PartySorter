@@ -51,35 +51,28 @@ jobs:
             --repo ${{ github.repository }} `
             --title "v$version" `
             --notes "Release $version"
-      - name: Delete previous releases
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        shell: pwsh
-        run: |
-          $version = "${{ github.ref_name }}"
-          $releases = gh release list --repo ${{ github.repository }} --json tagName --jq '.[] | .tagName' | Where-Object { $_ -ne $version }
-          foreach ($tag in $releases) {
-            Write-Host "Deleting old release: $tag"
-            gh release delete $tag --repo ${{ github.repository }} --yes --cleanup-tag
-          }
-
   update-manifest:
     needs: release
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Update pluginmaster.json in DalamudPlugins
         env:
           GH_TOKEN: ${{ secrets.MANIFEST_PAT }}
         run: |
           set -euo pipefail
           VERSION="${{ github.ref_name }}"
+          CHANGELOG=$(jq -r '.Changelog // ""' PartySorter.json)
           RESPONSE=$(gh api repos/AemiliusXIV/DalamudPlugins/contents/pluginmaster.json)
           SHA=$(echo "$RESPONSE" | jq -r '.sha')
           CONTENT=$(echo "$RESPONSE" | jq -r '.content' | base64 -d)
           NEW_CONTENT=$(echo "$CONTENT" | jq \
             --arg v "$VERSION" \
             --arg n "PartySorter" \
-            '(.[] | select(.InternalName==$n) | .AssemblyVersion) = $v')
+            --arg cl "$CHANGELOG" \
+            '(.[] | select(.InternalName==$n) | .AssemblyVersion) = $v |
+             (.[] | select(.InternalName==$n) | .Changelog) = $cl')
           ENCODED=$(echo "$NEW_CONTENT" | base64 -w 0)
           gh api repos/AemiliusXIV/DalamudPlugins/contents/pluginmaster.json \
             --method PUT \
