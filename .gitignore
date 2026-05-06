@@ -1,0 +1,22 @@
+# Private config — not for source control
+CLAUDE.md
+.claude/
+.claudeignore
+*.local.md
+
+# .NET / Dalamud build output
+bin/
+obj/
+*.user
+*.suo
+*.userprefs
+.vs/
+.vscode/
+.idea/
+
+# Dalamud zip output
+*.zip
+
+# OS noise
+Thumbs.db
+.DS_Store
