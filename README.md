@@ -27,10 +27,14 @@ Party Sorter is part of the [AemiliusXIV plugin repository](https://github.com/A
 
 Settings include: enable/disable toggle, drag modifier key (Ctrl / Shift / Alt), drop behaviour (swap or shift), auto-reapply, per-duty separate orders, and an on-duty-enter window prompt.
 
+## Privacy
+
+Party Sorter runs entirely on your machine. It reads your current party list and the orders you save, and reorders the party list locally. Nothing is collected, stored off your PC, or sent over the network, and there is no telemetry.
+
 ## License
 
-Copyright (c) 2026 AemiliusXIV. All rights reserved.
+Copyright (c) 2026 AemiliusXIV
 
-This project is source-available. You may fork and modify it, but the source code may not be copied into other projects or plugins without explicit written permission. Forks must preserve this license and credit the original author. See the [LICENSE](LICENSE) file for full terms.
+This project is source-available. You may fork and modify it, but the source code may not be copied into other projects or plugins, in source or compiled form, without explicit written permission. Forks must preserve this license and credit the original author. See the [LICENSE](LICENSE) file for full terms.
 
-Use of this plugin is at your own risk and is not sanctioned by Square Enix Co., Ltd.
+This project is not affiliated with or endorsed by Square Enix Co., Ltd. The use of third-party tools is prohibited under the FINAL FANTASY XIV Terms of Service; use of this plugin is entirely at your own risk. FINAL FANTASY XIV is a registered trademark of Square Enix Holdings Co., Ltd.
