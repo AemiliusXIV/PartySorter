@@ -55,15 +55,17 @@ jobs:
     needs: release
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
       - name: Update pluginmaster.json in DalamudPlugins
         env:
           GH_TOKEN: ${{ secrets.MANIFEST_PAT }}
         run: |
           set -euo pipefail
           VERSION="${{ github.ref_name }}"
-          CHANGELOG=$(jq -r '.Changelog // ""' PartySorter.json)
+          # Read changelog and API level from the manifest inside the shipped zip,
+          # so pluginmaster always matches the artifact users actually download.
+          gh release download "$VERSION" --repo ${{ github.repository }} --pattern "latest.zip" --output latest.zip
+          CHANGELOG=$(unzip -p latest.zip PartySorter.json | jq -r '.Changelog // empty')
+          API_LEVEL=$(unzip -p latest.zip PartySorter.json | jq '.DalamudApiLevel // empty')
           RESPONSE=$(gh api repos/AemiliusXIV/DalamudPlugins/contents/pluginmaster.json)
           SHA=$(echo "$RESPONSE" | jq -r '.sha')
           CONTENT=$(echo "$RESPONSE" | jq -r '.content' | base64 -d)
@@ -71,8 +73,10 @@ jobs:
             --arg v "$VERSION" \
             --arg n "PartySorter" \
             --arg cl "$CHANGELOG" \
+            --argjson al "$API_LEVEL" \
             '(.[] | select(.InternalName==$n) | .AssemblyVersion) = $v |
-             (.[] | select(.InternalName==$n) | .Changelog) = $cl')
+             (.[] | select(.InternalName==$n) | .Changelog) = $cl |
+             (.[] | select(.InternalName==$n) | .DalamudApiLevel) = $al')
           ENCODED=$(echo "$NEW_CONTENT" | base64 -w 0)
           gh api repos/AemiliusXIV/DalamudPlugins/contents/pluginmaster.json \
             --method PUT \
