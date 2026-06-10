@@ -44,15 +44,29 @@ jobs:
             exit 1
           }
       - name: Create GitHub Release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: pwsh
         run: |
           $version = "${{ github.ref_name }}"
-          gh release create $version "bin/Release/PartySorter/latest.zip" `
-            --repo ${{ github.repository }} `
-            --title "v$version" `
-            --notes "Release $version"
+          $token   = "${{ secrets.GITHUB_TOKEN }}"
+          $headers = @{
+            Authorization          = "Bearer $token"
+            Accept                 = "application/vnd.github+json"
+            "X-GitHub-Api-Version" = "2022-11-28"
+          }
+          $release = Invoke-RestMethod `
+            -Uri     "https://api.github.com/repos/${{ github.repository }}/releases" `
+            -Method  Post `
+            -Headers $headers `
+            -Body    (ConvertTo-Json @{ tag_name = $version; name = "v$version"; body = "Release $version" }) `
+            -ContentType "application/json"
+          $uploadUri = $release.upload_url -replace '\{.*\}', "?name=latest.zip"
+          $bytes = [IO.File]::ReadAllBytes("$PWD/bin/Release/PartySorter/latest.zip")
+          Invoke-RestMethod `
+            -Uri         $uploadUri `
+            -Method      Post `
+            -Headers     $headers `
+            -Body        $bytes `
+            -ContentType "application/octet-stream"
   update-manifest:
     needs: release
     runs-on: ubuntu-latest
